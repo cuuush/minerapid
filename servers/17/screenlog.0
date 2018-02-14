@@ -1,0 +1,21 @@
+[17:28:39] [Server thread/INFO]: Starting minecraft server version 1.12.2
+[17:28:39] [Server thread/INFO]: Loading properties
+[17:28:39] [Server thread/INFO]: Default game type: SURVIVAL
+[17:28:39] [Server thread/INFO]: Generating keypair
+[17:28:39] [Server thread/INFO]: Starting Minecraft server on *:25565
+[17:28:39] [Server thread/INFO]: Using default channel type
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/Users/chris/Sites/servers/17/minecraft_server.1.12.2.jar) to constructor java.nio.DirectByteBuffer(long,int)
+WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[17:28:39] [Server thread/INFO]: Preparing level "world"
+[17:28:39] [Server thread/INFO]: Loaded 488 advancements
+[17:28:39] [Server thread/INFO]: Preparing start region for level 0
+[17:28:40] [Server thread/INFO]: Preparing spawn area: 82%
+[17:28:40] [Server thread/INFO]: Done (1.396s)! For help, type "help" or "?"
+[17:28:45] [User Authenticator #1/INFO]: UUID of player chriscush765 is 36c82435-3cd1-49dc-8ccc-0be362fbb55f
+[17:28:45] [Server thread/INFO]: chriscush765[/127.0.0.1:55957] logged in with entity id 302 at (-43.5, 64.0, 247.5)
+[17:28:45] [Server thread/INFO]: chriscush765 joined the game
+[17:28:54] [Server thread/INFO]: chriscush765 lost connection: Internal Exception: java.io.IOException: Connection reset by peer
+[17:28:54] [Server thread/INFO]: chriscush765 left the game

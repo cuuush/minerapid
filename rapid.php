@@ -71,8 +71,9 @@ function create($name, $version = "latest")
 }
 
 function start($server_id){
-
+    echo "<h1> server " .$server_id ." started</h1>";
     $files = scandir("servers/" .$server_id);
+    $serverdir = "servers/" . $server_id;
     $jar = null;
 
     foreach($files as $file){
@@ -81,8 +82,11 @@ function start($server_id){
             break;
         }
     }
-
-    $command = "screen -d -m -S " .$server_id ." java -Xms1024M -Xmx1024M -jar" .$jar ."nogui";
+    unlink($serverdir ."/screenlog.0");
+    $screen_id = servertoken($server_id);
+    echo "screen id is '".$screen_id ."'<br>";
+    $command = "cd " .$serverdir ." && screen -L -dmS " .$screen_id ." java -Xms1024M -Xmx1024M -jar " .$jar ." nogui"; //spaces are very important turns out
+    echo("command: " .$command ."<br>");
     exec($command,$output);
     foreach($output as $line)
         echo $line ."\n";
@@ -99,10 +103,66 @@ function delete($name){
     }
 }
 
+function servertoken($server_id){
+    $id_array = str_split($server_id);
+    $token = "";
+    foreach($id_array as $number){
+
+        $token .= chr(intval($number) + 65);
+    }
+    return $token;
+
+}
+function stop($server_id){
+    command($server_id, "stop");
+}
+function forcestop($server_id){
+    //for mac:
+    $screenpid = explode(".",exec("screen -ls | grep " .servertoken($server_id) ." | awk '{print $1}'"))[0]; //at least I know what I'm doings
+    $screenparent = exec("ps -el | grep -E " .$screenpid .".*login | grep -v grep | awk '{print $2}'");
+    $javapid = exec("ps -el | grep -E " .$screenparent .".*java | grep -v grep | awk '{print $2}'");
+    exec("kill -9 " .$javapid);
+    echo "killed server " .$server_id ." at pid " .$javapid ." from screen pid " .$screenpid;
+}
+
+function command($server_id, $command){
+
+    $command = "screen -S " .servertoken($server_id) ." -X stuff '" .$command ."'\r\n"; // \r\n is windows only? yeah right
+    echo "executing command: " .$command;
+    exec($command);
+}
+
+
 
 //create("foo");
+
+if(isset($_GET["start"]))
 start(17);
+
+if(isset($_GET["fstop"]))
+forcestop(17);
+
+if(isset($_GET["stop"]))
+    stop(17);
+
+
+if(isset($_GET["command"]))
+    if($_GET["command"][0] != "")
+    command(17, $_GET["command"]);
 //delete("foo");
-
-
 ?>
+
+<form action="rapid.php" method="get">
+    <h3> choose a button</h3>
+    <input type="submit" name="start" value="start">
+    <br>
+    <input type="submit" name="stop" value="stop">
+    <br>
+    <input type="submit" name="fstop" value="force stop">
+
+    <h3> enter a command</h3>
+    <input type="text" name="command" placeholder="enter command here">
+    <input type="submit" value="send command to server">
+</form>
+
+
